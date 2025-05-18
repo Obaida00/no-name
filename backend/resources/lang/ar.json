@@ -1,0 +1,9 @@
+{
+    "IncorrectEmailOrPassword": "البريد الإلكتروني أو كلمة السر غير صحيحة",
+    "InvalidGoogleToken": "رمز Google غير صالح",
+    "InvalidGitHubToken": "رمز Github غير صالح",
+    "ErrorVerifyingGitHubToken": "خطأ في التحقق من رمز Github",
+    "UnsupportedProvider": "مزود غير مدعوم",
+    "ValidEmailAddressIsRequired": "مطلوب عنوان بريد إلكتروني صالح",
+    "SuccessfullyLoggedOut": "تم تسجيل الخروج بنجاح!"
+}

@@ -1,0 +1,9 @@
+{
+    "IncorrectEmailOrPassword": "Incorrect email or password",
+    "InvalidGoogleToken": "Invalid Google token",
+    "InvalidGitHubToken": "Invalid GitHub token",
+    "ErrorVerifyingGitHubToken": "Error verifying GitHub token",
+    "UnsupportedProvider": "Unsupported provider",
+    "ValidEmailAddressIsRequired": "A valid email address is required",
+    "SuccessfullyLoggedOut": "Successfully logged out!"
+}

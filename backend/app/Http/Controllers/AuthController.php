@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Str;
 
 class AuthController extends Controller
@@ -50,10 +52,10 @@ class AuthController extends Controller
 
         $user = User::create($data);
 
-        $token = $user->createToken($request->name);
+        $token = JWTAuth::fromUser($user);
 
         return response()->json([
-            'token' => $token->plainTextToken,
+            'token' => $token,
             'user' => new UserResource($user)
         ]);
     }
@@ -73,18 +75,18 @@ class AuthController extends Controller
             'password.required' => __('validation.custom.password.required'),
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $credentials = $request->only('email', 'password');
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$token = Auth::attempt($credentials)) {
             return response()->json([
                 'message' => __('IncorrectEmailOrPassword')
             ], 422);
         }
 
-        $token = $user->createToken($user->name);
+        $user = Auth::user();
 
         return response()->json([
-            'token' => $token->plainTextToken,
+            'token' => $token,
             'user' => new UserResource($user)
         ]);
     }
@@ -161,7 +163,7 @@ class AuthController extends Controller
             }
         }
 
-        $token = $user->createToken('app-token')->plainTextToken;
+        $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'token' => $token,
@@ -169,9 +171,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->tokens()->delete();
+        Auth::logout();
 
         return response()->json([
             'message' => __('SuccessfullyLoggedOut')

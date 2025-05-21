@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             )
             ->withDocumentTransformers(function (OpenApi $openApi) {
                 $openApi->secure(
-                    SecurityScheme::http('bearer')
+                    SecurityScheme::http('bearer', 'JWT')
                 );
             });
     }

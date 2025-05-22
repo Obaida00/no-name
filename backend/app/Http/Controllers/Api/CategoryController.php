@@ -125,10 +125,25 @@ class CategoryController extends Controller
     {
         $hierarchy = $this->categoryService->getCategoryHierarchy();
 
+        $transformedHierarchy = $this->transformHierarchy($hierarchy);
+
         return response()->json([
             'data' => [
-                'hierarchy' => CategoryResource::collection($hierarchy)
+                'hierarchy' => $transformedHierarchy
             ]
         ]);
+    }
+
+    private function transformHierarchy($categories)
+    {
+        return $categories->map(function ($category) {
+            $resourceData = (new CategoryResource($category))->toArray(request());
+
+            if (isset($category->subcategories) && $category->subcategories->count() > 0) {
+                $resourceData['subcategories'] = $this->transformHierarchy($category->subcategories);
+            }
+
+            return $resourceData;
+        })->all();
     }
 }

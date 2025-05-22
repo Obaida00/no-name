@@ -22,6 +22,7 @@ class CategoryResource extends JsonResource
             'parentCategory' => $this->parent_category,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
+            'subcategoriesCount' => $this->subcategories()->count(),
         ];
 
         if ($this->relationLoaded('subcategories')) {

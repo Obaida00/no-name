@@ -18,4 +18,28 @@ class ProductCollection extends ResourceCollection
             'data' => $this->collection,
         ];
     }
+
+    public function with($request)
+    {
+        $pagination = $this->resource->toArray();
+
+        unset($pagination['data']);
+
+        if (isset($pagination['links']) && is_array($pagination['links'])) {
+            $queryParams = $request->query();
+            unset($queryParams['page']);
+
+            $queryString = http_build_query($queryParams);
+
+            if (!empty($queryString)) {
+                foreach ($pagination['links'] as &$link) {
+                    if ($link['url']) {
+                        $link['url'] .= (parse_url($link['url'], PHP_URL_QUERY) ? '&' : '?') . $queryString;
+                    }
+                }
+            }
+        }
+
+        return $pagination;
+    }
 }

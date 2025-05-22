@@ -21,8 +21,8 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $page = $request->query('page', 1);
-        $perPage = $request->query('perPage', 15);
+        $page = intval($request->query('page', 1));
+        $perPage = intval($request->query('perPage', 15));
         $filters = [
             'search' => $request->query('search'),
             'parent_category' => $request->query('parentCategory'),

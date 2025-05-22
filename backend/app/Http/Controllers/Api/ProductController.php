@@ -23,13 +23,13 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $page = $request->query('page', 1);
-        $perPage = $request->query('perPage', 15);
+        $page = intval($request->query('page', 1));
+        $perPage = intval($request->query('perPage', 15));
         $filters = [
             'search' => $request->query('search'),
             'category_id' => $request->query('categoryId'),
             'expiration_status' => $request->query('expirationStatus'),
-            'months' => $request->query('months', 3),
+            'months' => intval($request->query('months', 3)),
             'sort_by_expiration' => $request->query('sortByExpiration', false)
         ];
 
@@ -101,8 +101,8 @@ class ProductController extends Controller
 
     public function getExpired(Request $request)
     {
-        $page = $request->query('page', 1);
-        $perPage = $request->query('perPage', 15);
+        $page = intval($request->query('page', 1));
+        $perPage = intval($request->query('perPage', 15));
         $products = $this->productService->getExpiredProducts($page, $perPage);
 
         return (new ProductCollection($products))
@@ -113,9 +113,9 @@ class ProductController extends Controller
     }
     public function getExpiringSoon(Request $request)
     {
-        $page = $request->query('page', 1);
-        $perPage = $request->query('perPage', 15);
-        $months = $request->query('months', 3);
+        $page = intval($request->query('page', 1));
+        $perPage = intval($request->query('perPage', 15));
+        $months = intval($request->query('months', 3));
         $products = $this->productService->getExpiringSoonProducts($page, $perPage, $months);
 
         return (new ProductCollection($products))

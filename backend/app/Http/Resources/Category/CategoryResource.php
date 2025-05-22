@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Category;
 
+use App\Http\Resources\Product\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,7 +29,7 @@ class CategoryResource extends JsonResource
         }
 
         if ($this->relationLoaded('products')) {
-            $data['products'] = $this->products;
+            $data['products'] = ProductResource::collection($this->products);
         }
 
         if ($this->relationLoaded('parentCategory')) {

@@ -127,6 +127,7 @@ class ProductService
 
                 $results['success'][] = [
                     'productId' => $update['productId'],
+                    'productName' => $product->name,
                     'oldQuantity' => $product->quantity - $update['quantity'],
                     'newQuantity' => $product->quantity
                 ];

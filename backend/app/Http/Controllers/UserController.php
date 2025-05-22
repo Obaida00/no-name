@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,20 +18,17 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'address' => 'nullable|string',
-            'gender' => 'nullable|in:male,female,other',
-            'age' => 'nullable|integer|min:0',
-            'password' => 'required|string|min:6',
-        ]);
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
 
-        $validated['password'] = Hash::make($validated['password']);
+        $user = User::create($data);
 
-        return User::create($validated);
+        return response()->json([
+            'message' => 'User created successfully',
+            'user'    => $user,
+        ], 201);
     }
 
     public function show(User $user)
@@ -37,22 +36,9 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        if (!$user) {
-            return response()->json([
-                'Message' => 'Profile Not Changed',
-                'Errors' => 'User is not login',
-            ],401);
-        }
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'address' => 'nullable|string',
-            'gender' => 'nullable|in:male,female,other',
-            'age' => 'nullable|integer|min:1',
-            'password' => 'nullable|string|min:6',
-        ]);
+        $validated = $request->validated();
 
         if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
@@ -60,7 +46,10 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return $user;
+        return response()->json([
+            'message' => 'Profile updated successfully!',
+            'user' => $user,
+        ]);
     }
 
     public function destroy(User $user): \Illuminate\Http\JsonResponse

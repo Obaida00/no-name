@@ -1,60 +1,55 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
     {
-        return User::all();
+        $this->userService = $userService;
     }
 
-    public function store(StoreUserRequest $request)
+    public function index(): JsonResponse
     {
-        $data = $request->validated();
-        $data['password'] = Hash::make($data['password']);
+        $users = $this->userService->getAllUsers();
+        return response()->json($users);
+    }
 
-        $user = User::create($data);
-
+    public function store(StoreUserRequest $request): JsonResponse
+    {
+        $user = $this->userService->createUser($request->validated());
         return response()->json([
             'message' => 'User created successfully',
-            'user'    => $user,
+            'user' => $user,
         ], 201);
     }
 
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
-        return $user;
+        return response()->json($this->userService->getUser($user));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $validated = $request->validated();
-
-        if (isset($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        }
-
-        $user->update($validated);
-
+        $updatedUser = $this->userService->updateUser($user, $request->validated());
         return response()->json([
-            'message' => 'Profile updated successfully!',
-            'user' => $user,
+            'message' => 'User updated successfully',
+            'user' => $updatedUser,
         ]);
     }
 
-    public function destroy(User $user): \Illuminate\Http\JsonResponse
+    public function destroy(User $user): JsonResponse
     {
-        $user->delete();
-        return response()->json(['message' => 'User deleted']);
+        $this->userService->deleteUser($user);
+        return response()->json([
+            'message' => 'User deleted successfully'
+        ]);
     }
 }

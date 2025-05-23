@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +23,7 @@ class StoreUserRequest extends FormRequest
             'address'  => 'nullable|string',
             'gender'   => 'nullable|in:male,female,other',
             'age'      => 'nullable|integer|min:0',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed:passwordConfirmation',
         ];
     }
 }

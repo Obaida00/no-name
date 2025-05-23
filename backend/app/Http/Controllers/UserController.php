@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateCurrentUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,8 +13,26 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @response UserResource
      */
+    public function currentUser(Request $request)
+    {
+        return new UserResource($request->user());
+    }
+
+    public function updateCurrentUser(UpdateCurrentUserRequest $request)
+    {
+        $user = $request->user();
+        $data = $request->validated();
+
+        $user->update($data);
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'data' => new UserResource($user)
+        ]);
+    }
+
     public function index()
     {
         return User::all();

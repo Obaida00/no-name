@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,39 +17,12 @@ use Str;
 class AuthController extends Controller
 {
     /**
-     * @response UserResource
-     */
-    public function currentUser(Request $request)
-    {
-        return new UserResource($request->user());
-    }
-
-    /**
      * @response array{token: string, user: UserResource}
      * @unauthenticated
      */
-    public function register(Request $request)
+    public function register(StoreUserRequest $request)
     {
-        $request->merge([
-            'password_confirmation' => $request->input('passwordConfirmation')
-        ]);
-        $data = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed',
-            'passwordConfirmation' => 'required',
-            /** @ignoreParam */
-            'password_confirmation' => ''
-        ], [
-            'name.required' => __('validation.custom.name.required'),
-            'name.max' => __('validation.custom.name.max'),
-            'email.required' => __('validation.custom.email.required'),
-            'email.email' => __('validation.custom.email.email'),
-            'email.unique' => __('validation.custom.email.unique'),
-            'password.required' => __('validation.custom.password.required'),
-            'password.confirmed' => __('validation.custom.password.confirmed'),
-            'passwordConfirmation.required' => __('validation.custom.passwordConfirmation.required'),
-        ]);
+        $data = $request->validated();
 
         $user = User::create($data);
 

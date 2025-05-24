@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ShiftController;
+use App\Http\Controllers\Api\ContractController;
 
 // Auth Routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -37,4 +39,30 @@ Route::middleware("auth:api")->prefix('products')->group(function () {
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'destroy']);
+});
+
+// Shift Routes
+Route::middleware("auth:api")->prefix('shifts')->group(function () {
+    Route::get('/', [ShiftController::class, 'index']);
+    Route::post('/', [ShiftController::class, 'store']);
+    Route::get('/by-days', [ShiftController::class, 'getByDays']);
+    Route::get('/available', [ShiftController::class, 'getAvailable']);
+    Route::get('/{id}', [ShiftController::class, 'show']);
+    Route::put('/{id}', [ShiftController::class, 'update']);
+    Route::delete('/{id}', [ShiftController::class, 'destroy']);
+});
+
+// Contract Routes
+Route::middleware("auth:api")->prefix('contracts')->group(function () {
+    Route::get('/', [ContractController::class, 'index']);
+    Route::post('/', [ContractController::class, 'store']);
+    Route::get('/active', [ContractController::class, 'getActive']);
+    Route::get('/expired', [ContractController::class, 'getExpired']);
+    Route::get('/ending-soon', [ContractController::class, 'getEndingSoon']);
+    Route::get('/user/{userId}', [ContractController::class, 'getUserContracts']);
+    Route::get('/{id}', [ContractController::class, 'show']);
+    Route::put('/{id}', [ContractController::class, 'update']);
+    Route::delete('/{id}', [ContractController::class, 'destroy']);
+    Route::patch('/{id}/end', [ContractController::class, 'end']);
+    Route::post('/{id}/renew', [ContractController::class, 'renew']);
 });

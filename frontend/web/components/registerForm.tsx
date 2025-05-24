@@ -16,12 +16,14 @@ import { Button } from "./ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import myToast from "./ui/toast";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
 
 function RegisterForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const {loadUser} = useUser();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -59,8 +61,8 @@ function RegisterForm() {
     setLoading(true);
     console.log(values.password);
     console.log(values.confirmPassword);
-    
-    
+
+
     try {
       const response = await fetch("/api/register", {
         method: "POST",
@@ -80,7 +82,7 @@ function RegisterForm() {
 
       if (!response.ok) {
         console.log(`reg form: ${data.errors}`);
-        
+
         if (data.errors) {
           (Object.keys(data.errors) as Array<keyof FormFields>).forEach((field) => {
             form.setError(field, {
@@ -93,10 +95,11 @@ function RegisterForm() {
         }
         return;
       }
-
+      
       myToast({ title: "Account created successfully", state: "success" });
-      router.replace("/home"); 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      loadUser();
+      router.replace("/home");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       myToast({ title: "Something went wrong", state: "error" });
     } finally {

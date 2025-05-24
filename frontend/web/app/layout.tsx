@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar, { AppSidebarTrigger } from "@/components/app-sidebar";
+import { UserProvider } from "@/contexts/UserContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,17 +23,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <UserProvider>
       <SidebarProvider>
         <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} `}
-        >
-          <AppSidebar></AppSidebar>
-          <AppSidebarTrigger></AppSidebarTrigger>
-          {children}
-          <Toaster/>
-        </body>
-      </html>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} `}
+          >
+            <AppSidebar></AppSidebar>
+            <AppSidebarTrigger></AppSidebarTrigger>
+            {children}
+            <Toaster />
+          </body>
+        </html>
       </SidebarProvider>
+    </UserProvider>
   );
 }

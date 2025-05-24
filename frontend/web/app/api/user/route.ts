@@ -1,12 +1,8 @@
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const cookieStore = cookies();
-    const token = (await cookieStore).get("token")?.value;
-    console.log(token);
-    
+    const token = request.cookies.get("token")?.value;
     if (!token) {
       return NextResponse.json({ message: "Unauthenticated" }, { status: 401 });
     }
@@ -15,22 +11,26 @@ export async function GET() {
       `${process.env.LARAVEL_API_BASE_URL}/api/user`,
       {
         headers: {
-          "Accept": "application/json",
-          "Authorization": `Bearer ${token}`,
-          "Accept-Language" : "en",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
 
-    const data = await laravelRes.json();
-    console.log(data.user.email)
+    const { data: user } = await laravelRes.json();
+
     if (!laravelRes.ok) {
-      return NextResponse.json(data, { status: laravelRes.status });
+      return NextResponse.json(
+        { message: "Laravel error" },
+        { status: laravelRes.status }
+      );
     }
 
-    return NextResponse.json(data, { status: 200 });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    console.log("User fetched from Laravel:", user);
+
+    return NextResponse.json(user);
   } catch (error) {
+    console.error("Server error:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

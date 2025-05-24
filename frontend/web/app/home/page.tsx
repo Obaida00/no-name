@@ -1,11 +1,12 @@
 "use client"
 
 import { Button } from '@/components/ui/button';
-import useUser from '@/hooks/useUser';
-import router  from 'next/navigation';
-
+import { useUser } from '@/contexts/UserContext';
+import { redirect } from 'next/navigation';
 export default function Homepage() {
-    const { user, loading } = useUser();
+
+    const { user, loading, setUser } = useUser();
+
 
     const handleLogout = async () => {
         const res = await fetch("/api/logout", {
@@ -13,7 +14,8 @@ export default function Homepage() {
         });
 
         if (res.ok) {
-            router.redirect("/");
+            setUser(null);
+            redirect("/");
         }
     };
 

@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail, useSidebar, } from './ui/sidebar'
 import Link from 'next/link'

@@ -23,19 +23,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UserProvider>
-      <SidebarProvider>
-        <html lang="en">
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} `}
-          >
+    <SidebarProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} `}
+        >
+          <UserProvider>
             <AppSidebar></AppSidebar>
             <AppSidebarTrigger></AppSidebarTrigger>
             {children}
             <Toaster />
-          </body>
-        </html>
-      </SidebarProvider>
-    </UserProvider>
+          </UserProvider>
+        </body>
+      </html>
+    </SidebarProvider>
   );
 }

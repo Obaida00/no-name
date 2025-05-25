@@ -5,8 +5,12 @@ import { useUser } from '@/contexts/UserContext';
 import { redirect } from 'next/navigation';
 export default function Homepage() {
 
-    const { user, loading, setUser } = useUser();
-
+    const { user, loading, loadUser } = useUser();
+    useEffect(() => {
+        if (!user) {
+            loadUser();
+        }
+    }, [user, loadUser]);
 
     const handleLogout = async () => {
         const res = await fetch("/api/logout", {
@@ -14,18 +18,18 @@ export default function Homepage() {
         });
 
         if (res.ok) {
-            setUser(null);
+            console.log("USER AFTER LOGGING OUT: " + user);
             redirect("/");
         }
     };
 
     if (loading) return <p>Loading...</p>;
-    if (!user) return <p>Not logged in</p>;
     return (
         <>
-            <p>Welcome {user.name}</p>
-            <p>your email is : {user.email}</p>
-            <Button onClick={handleLogout}>Logout</Button>
+            <div className="flex flex-col font-[family-name:var(--font-geist-sans)] p-8">
+                <h2 className='text-3xl font-bold'>Profile</h2>
+
+            </div>
         </>
     );
 }

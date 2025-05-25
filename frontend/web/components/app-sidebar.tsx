@@ -57,14 +57,7 @@ export default function AppSidebar() {
                 <SidebarGroup />
             </SidebarContent>
             <SidebarFooter>
-                <div className="flex items-center font-[family-name:var(--font-geist-sans)]">
-                    <Avatar className='w-[40px] h-[40px]'>
-                        <AvatarFallback className='bg-slate-600'>
-                            <User />
-                        </AvatarFallback>
-                    </Avatar>
-                    <h3 className='mx-4'>Talal Alghazal</h3>
-                </div>
+                <ProfileSideCard />
             </SidebarFooter>
             <SidebarRail></SidebarRail>
         </Sidebar >

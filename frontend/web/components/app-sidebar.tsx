@@ -35,7 +35,7 @@ export default function AppSidebar() {
         },
     ];
     return (
-        <Sidebar collapsible='icon'>
+        <Sidebar collapsible='icon' className='overflow-hidden'>
             <SidebarHeader >
                 <span>App</span>
             </SidebarHeader>

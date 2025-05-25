@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail, useSidebar, } from './ui/sidebar'
 import Link from 'next/link'
-import { BarChartBigIcon, PillBottle, LayoutGrid, Settings2, Menu } from 'lucide-react'
+import { BarChartBigIcon, PillBottle, LayoutGrid, Settings2, Menu, User } from 'lucide-react'
 import { Button } from './ui/button';
+import { Avatar, AvatarFallback } from './ui/avatar';
 
 export default function AppSidebar() {
     const [selectedTab, setSelectedTab] = useState("Dashboard");
@@ -55,7 +56,16 @@ export default function AppSidebar() {
                 </SidebarMenu>
                 <SidebarGroup />
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                <div className="flex items-center font-[family-name:var(--font-geist-sans)]">
+                    <Avatar className='w-[40px] h-[40px]'>
+                        <AvatarFallback className='bg-slate-600'>
+                            <User />
+                        </AvatarFallback>
+                    </Avatar>
+                    <h3 className='mx-4'>Talal Alghazal</h3>
+                </div>
+            </SidebarFooter>
             <SidebarRail></SidebarRail>
         </Sidebar >
     )

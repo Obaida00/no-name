@@ -28,6 +28,7 @@ export const useUser = () => useContext(UserContext);
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const router = useRouter();
 
     const loadUser = async () => {
         try {

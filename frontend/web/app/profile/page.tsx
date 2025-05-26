@@ -29,6 +29,10 @@ export default function Profile() {
         }
     };
 
+    const handleTransition = () => {
+        console.log('moving to profile edit');
+        router.push("/profile-edit");
+    }
 
     return (
         <>
@@ -71,8 +75,8 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className='flex justify-between mt-7'>
-                        <Button className='' onClick={handleLogout} variant={'destructive'}>Logout</Button>
-                        <Button className='' variant={'default'}>Edit profile</Button>
+                        <Button className='bg-red-200 text-red-600' onClick={handleLogout} variant={'secondary'}>Logout</Button>
+                        <Button className='' onClick={handleTransition} variant={'default'}>Edit profile</Button>
                     </div>
 
                 </div>

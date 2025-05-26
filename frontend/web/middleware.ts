@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (token && request.nextUrl.pathname === "") {
+  if (token && request.nextUrl.pathname === "/") {
     console.log("YOU ARE TRYING TO GO BACK TO AUTH PAGE");
     return NextResponse.redirect(new URL("/home",request.url))
   }

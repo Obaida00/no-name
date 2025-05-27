@@ -17,7 +17,7 @@ export default function AppSidebar() {
         {
             icon: <PillBottle />,
             title: "Products",
-            href: "",
+            href: "/products",
             selected: false
         },
         {

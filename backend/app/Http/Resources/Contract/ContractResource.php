@@ -19,8 +19,8 @@ class ContractResource extends JsonResource
         $data = [
             'id' => $this->id,
             'userId' => $this->user_id,
-            'startDate' => $this->start_date,
-            'endDate' => $this->end_date,
+            'startDate' => date_format($this->start_date, "Y-m-d"),
+            'endDate' => date_format($this->end_date, "Y-m-d"),
             'monthlySalary' => $this->monthly_salary,
             'shiftId' => $this->shift_id,
             'pharmacyId' => $this->pharmacy_id,

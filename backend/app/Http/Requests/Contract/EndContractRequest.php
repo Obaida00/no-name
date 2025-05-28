@@ -22,7 +22,7 @@ class EndContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'endDate' => 'nullable|date|after_or_equal:today',
+            'endDate' => 'nullable|date_format:Y-m-d|after_or_equal:today',
         ];
     }
 

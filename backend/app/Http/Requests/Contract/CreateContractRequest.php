@@ -23,8 +23,8 @@ class CreateContractRequest extends FormRequest
     {
         return [
             'userId' => 'required|uuid|exists:users,id',
-            'startDate' => 'required|date|after_or_equal:today',
-            'endDate' => 'required|date|after:startDate',
+            'startDate' => 'required|date_format:Y-m-d|after_or_equal:today',
+            'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'monthlySalary' => 'required|integer|min:1',
             'shiftId' => 'required|uuid|exists:shifts,id',
             // 'pharmacyId' => 'nullable|uuid',

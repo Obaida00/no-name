@@ -3,7 +3,7 @@
 import React from 'react'
 import { useUser } from '@/contexts/UserContext'
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { string, z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
@@ -26,10 +26,16 @@ export default function ProfileEditForm() {
             gender: "Male",
         }
     });
+
+    const handleSubmitEdits = (values: z.infer<typeof ProfileSchema>) => {
+        console.log(values);
+
+    }
+
     return (
         <div className="flex justify-between font-[family-name:var(--font-geist-sans)] not-md:p-5">
             <Form {...form}>
-                <form action="" className=' md:w-full flex lg:flex-row flex-col justify-center lg:justify-between md:items-end h-100'>
+                <form action="" onSubmit={form.handleSubmit(handleSubmitEdits)} className=' md:w-full flex lg:flex-row flex-col justify-center lg:justify-between md:items-end h-100'>
                     <div className='md:w-[450px] border border-dashed rounded-2xl md:self-start p-8'>
                         <FormField control={form.control} name='name' render={({ field }) => (
                             <FormItem>
@@ -40,9 +46,9 @@ export default function ProfileEditForm() {
                         )} />
                         <div className="flex not-md:flex-col items-start">
                             <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
-                                <FormItem>
+                                <FormItem className='mb-4'>
                                     <FormLabel>Age</FormLabel>
-                                    <FormControl><Input {...field} className='mb-4' type="number" min={20} /></FormControl>
+                                    <FormControl><Input {...field} value={field.value} type="number" min={20} /></FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )} />
@@ -67,7 +73,7 @@ export default function ProfileEditForm() {
                         </div>
                     </div>
                     <div>
-                        <Button variant={'default'} className='mt-7 not-lg:w-full'>Save changes</Button>
+                        <Button type='submit' variant={'default'} className='mt-7 not-lg:w-full'>Save changes</Button>
                     </div>
                 </form>
             </Form>

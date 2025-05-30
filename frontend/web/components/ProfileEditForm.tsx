@@ -55,15 +55,15 @@ export default function ProfileEditForm() {
                             <FormField control={form.control} name='gender' render={({ field }) => (
                                 <FormItem className='md:ml-2 w-full'>
                                     <FormLabel>Gender</FormLabel>
-                                    <FormControl><Select {...field} onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl><Select {...field} onValueChange={field.onChange}>
                                         <SelectTrigger className='w-full'>
-                                            <SelectValue />
+                                            <SelectValue placeholder="select gender"/>
                                         </SelectTrigger>
                                         <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
                                             <SelectGroup>
                                                 <SelectLabel>Gender</SelectLabel>
-                                                <SelectItem value="male">Male</SelectItem>
-                                                <SelectItem value="female">Female</SelectItem>
+                                                <SelectItem value="Male">Male</SelectItem>
+                                                <SelectItem value="Female">Female</SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select></FormControl>

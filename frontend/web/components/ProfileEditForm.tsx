@@ -59,7 +59,7 @@ export default function ProfileEditForm() {
                                         <SelectTrigger className='w-full'>
                                             <SelectValue />
                                         </SelectTrigger>
-                                        <SelectContent>
+                                        <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
                                             <SelectGroup>
                                                 <SelectLabel>Gender</SelectLabel>
                                                 <SelectItem value="male">Male</SelectItem>

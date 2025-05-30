@@ -75,8 +75,8 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className='flex justify-between mt-7'>
-                        <Button className='bg-red-200 text-red-600' onClick={handleLogout} variant={'secondary'}>Logout</Button>
-                        <Button className='' onClick={handleTransition} variant={'default'}>Edit profile</Button>
+                        <Button className='bg-red-200 text-red-600 cursor-pointer' onClick={handleLogout} variant={'secondary'}>Logout</Button>
+                        <Button className='cursor-pointer' onClick={handleTransition} variant={'default'}>Edit profile</Button>
                     </div>
 
                 </div>

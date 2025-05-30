@@ -73,7 +73,7 @@ export default function ProfileEditForm() {
                         </div>
                     </div>
                     <div>
-                        <Button type='submit' variant={'default'} className='mt-7 not-lg:w-full'>Save changes</Button>
+                        <Button type='submit' variant={'default'} className='mt-7 not-lg:w-full cursor-pointer'>Save changes</Button>
                     </div>
                 </form>
             </Form>

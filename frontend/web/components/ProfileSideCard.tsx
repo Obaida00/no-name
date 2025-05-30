@@ -4,14 +4,14 @@ import { Avatar, AvatarFallback } from './ui/avatar';
 import { LogOut, User } from 'lucide-react';
 import { useUser } from '@/contexts/UserContext';
 import Link from 'next/link';
-import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 
 export default function ProfileSideCard() {
 
     const { user } = useUser();
     const router = useRouter();
-    
+
     const handleLogout = async () => {
         const res = await fetch("/api/logout", {
             method: "POST",
@@ -36,9 +36,12 @@ export default function ProfileSideCard() {
                     </Avatar>
                     <h3 className='mx-3 font-semibold'>{user?.name}</h3>
                 </div>
-                <Button size={'icon'} variant={'ghost'} className='cursor-pointer' onClick={handleLogout}>
-                    <LogOut />
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger><LogOut size={20} className='cursor-pointer' onClick={handleLogout}></LogOut></TooltipTrigger>
+                    <TooltipContent>
+                        <p>Logout</p>
+                    </TooltipContent>
+                </Tooltip>
             </div>
         </Link>
 

@@ -20,8 +20,8 @@ class UpdateUserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
             'address' => 'nullable|string',
-            'gender' => 'nullable|in:male,female,other',
-            'age' => 'nullable|integer|min:1',
+            'gender' => 'required|in:male,female,other',
+            'age' => 'required|integer|min:1',
             'password' => 'nullable|string|min:6',
 
         ];

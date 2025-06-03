@@ -27,9 +27,28 @@ export default function ProfileEditForm() {
         }
     });
 
-    const handleSubmitEdits = (values: z.infer<typeof ProfileSchema>) => {
+    const handleSubmitEdits = async (values: z.infer<typeof ProfileSchema>) => {
         console.log(values);
-
+        try {
+            const body = JSON.stringify({
+                id: user?.id,
+                values
+            });
+            const response = await fetch("/api/user/edit", {
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Edited profile: " + data.name);
+            }
+        } catch (error) {
+            console.log("From UI: Error occured" + error);
+        }
     }
 
     return (

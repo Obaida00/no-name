@@ -21,9 +21,7 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $this->user->id,
             'address' => 'nullable|string',
             'gender' => 'required|in:male,female,other',
-            'age' => 'required|integer|min:1',
-            'password' => 'nullable|string|min:6',
-
+            'age' => 'required|integer|min:18'
         ];
     }
 }

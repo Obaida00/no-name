@@ -25,9 +25,7 @@ class UserController extends Controller
             return response()->json($users);
         } catch (\Exception $e) {
             Log::error('Error fetching users: ' . $e->getMessage());
-            return response()->json([
-                'error' => __('An unexpected error occurred while retrieving users.')
-            ], 500);
+            return response()->json(['error' => 'error occurred while fetching users'], 500);
         }
     }
 
@@ -36,57 +34,62 @@ class UserController extends Controller
         try {
             $user = $this->userService->createUser($request->validated());
             return response()->json([
-                'message' => __('user.created_successfully'),
+                'message' => 'user created successfully!',
                 'user' => $user,
             ], 201);
         } catch (\Exception $e) {
             Log::error('Error creating user: ' . $e->getMessage());
-            return response()->json([
-                'error' => __('An unexpected error occurred while creating the user.')
-            ], 500);
+            return response()->json(['error' => 'error occurred while creating user'], 500);
         }
     }
 
-    public function show(User $user): JsonResponse
+    public function show($id): JsonResponse
     {
         try {
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['error' => 'user not found '], 404);
+            }
+
             return response()->json($this->userService->getUser($user));
         } catch (\Exception $e) {
-            Log::error('Error retrieving user: ' . $e->getMessage());
-            return response()->json([
-                'error' => __('An unexpected error occurred while retrieving the user.')
-            ], 500);
+            Log::error("Error fetching user with ID $id: " . $e->getMessage());
+            return response()->json(['error' => 'error occurred while fetching user data'], 500);
         }
     }
 
-    public function update(UpdateUserRequest $request, User $user): JsonResponse
+    public function update(UpdateUserRequest $request, $id): JsonResponse
     {
         try {
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['error' => 'user not found '], 404);
+            }
+
             $updatedUser = $this->userService->updateUser($user, $request->validated());
             return response()->json([
-                'message' => __('user.updated_successfully'),
+                'message' => 'user data updated succesfully',
                 'user' => $updatedUser,
             ]);
         } catch (\Exception $e) {
-            Log::error('Error updating user: ' . $e->getMessage());
-            return response()->json([
-                'error' => __('An unexpected error occurred while updating the user.')
-            ], 500);
+            Log::error("Error updating user with ID $id: " . $e->getMessage());
+            return response()->json(['error' => 'error occurred while updating user data'], 500);
         }
     }
 
-    public function destroy(User $user): JsonResponse
+    public function destroy($id): JsonResponse
     {
         try {
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['error' => 'user not found '], 404);
+            }
+
             $this->userService->deleteUser($user);
-            return response()->json([
-                'message' => __('user.deleted_successfully')
-            ]);
+            return response()->json(['message' => 'user deleted succesfully']);
         } catch (\Exception $e) {
-            Log::error('Error deleting user: ' . $e->getMessage());
-            return response()->json([
-                'error' => __('An unexpected error occurred while deleting the user.')
-            ], 500);
+            Log::error("Error deleting user with ID $id: " . $e->getMessage());
+            return response()->json(['error' => 'error occurred while deleting user'], 500);
         }
     }
 }

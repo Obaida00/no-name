@@ -55,9 +55,9 @@ export default function Profile() {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-5">
                         <div className="">
-                            <h1>User ID</h1>
+                            <h1>Address</h1>
                             <div className="p-3 bg-gray-100 rounded-xl">
-                                {user?.id}
+                                {user?.address}
                             </div>
                         </div>
                         {/* Some hardcoded stuff: */}

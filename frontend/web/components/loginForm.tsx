@@ -16,7 +16,7 @@ export default function LoginForm() {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const {loadUser} = useUser();
+    const { loadUser } = useUser();
 
     const togglePasswordVisibility = () => {
         setPasswordVisible((prev) => !prev);
@@ -42,7 +42,7 @@ export default function LoginForm() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept" : "application/json"
+                    "Accept": "application/json"
                 },
                 body: JSON.stringify(values),
             });
@@ -50,13 +50,17 @@ export default function LoginForm() {
             const data = await response.json();
             console.log("login data: " + data);
             if (!response.ok) {
+                if (response.status === 401) {
+                    myToast({ title: "Incorrect email or password", state: "error" });
+                    return
+                }
                 myToast({ title: data.message || "Login failed", state: "error" });
                 return;
             }
             loadUser();
             router.replace("/home");
             myToast({ title: "Logged in successfully", state: "success" });
-            
+
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
             myToast({ title: "Something went wrong", state: "error" });
@@ -64,7 +68,7 @@ export default function LoginForm() {
             setLoading(false);
         }
     }
-    
+
     return (
         <div className="font-[family-name:var(--font-geist-sans)]">
             <Form {...form}>

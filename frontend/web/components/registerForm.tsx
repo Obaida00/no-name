@@ -175,8 +175,8 @@ function RegisterForm() {
                   <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
                     <SelectGroup>
                       <SelectLabel>Gender</SelectLabel>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="Male">Male</SelectItem>
+                      <SelectItem value="Female">Female</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select></FormControl>

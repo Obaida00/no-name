@@ -16,6 +16,9 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           name: body.name,
           email: body.email,
+          address: body.address,
+          gender: body.gender,
+          age: body.age,
           password: body.password,
           passwordConfirmation: body.passwordConfirmation,
         }),

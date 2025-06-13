@@ -17,13 +17,14 @@ import { Eye, EyeOff } from "lucide-react";
 import myToast from "./ui/toast";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/contexts/UserContext";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 
 function RegisterForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const {loadUser} = useUser();
+  const { loadUser } = useUser();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -37,6 +38,9 @@ function RegisterForm() {
     .object({
       name: z.string().min(2, { message: "The name must be at least 2 characters" }),
       email: z.string().email({ message: "Please enter a valid email" }),
+      address: z.string(),
+      gender: z.string(),
+      age: z.coerce.number().min(20, { message: "Your age must not be less than 20 years" }),
       password: z.string().min(8, { message: "Password must be at least 8 characters" }),
       confirmPassword: z.string().min(8, { message: "Password must be at least 8 characters" }),
     })
@@ -52,6 +56,9 @@ function RegisterForm() {
     defaultValues: {
       name: "",
       email: "",
+      address: "",
+      gender: "",
+      age: 0,
       password: "",
       confirmPassword: "",
     },
@@ -59,6 +66,9 @@ function RegisterForm() {
 
   const handleRegister = async (values: FormFields) => {
     setLoading(true);
+    console.log(values.age);
+    console.log(values.gender);
+    
     console.log(values.password);
     console.log(values.confirmPassword);
 
@@ -73,6 +83,9 @@ function RegisterForm() {
         body: JSON.stringify({
           name: values.name,
           email: values.email,
+          address: values.address,
+          gender: values.gender,
+          age: values.age,
           password: values.password,
           passwordConfirmation: values.confirmPassword,
         }),
@@ -95,7 +108,7 @@ function RegisterForm() {
         }
         return;
       }
-      
+
       myToast({ title: "Account created successfully", state: "success" });
       loadUser();
       router.replace("/home");
@@ -133,6 +146,44 @@ function RegisterForm() {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl><Input {...field} type="text" /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex not-md:flex-col items-start">
+            <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
+              <FormItem className='mb-4'>
+                <FormLabel>Age</FormLabel>
+                <FormControl><Input {...field} value={field.value} type="number" min={20} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <FormField control={form.control} name='gender' render={({ field }) => (
+              <FormItem className='md:ml-2 w-full'>
+                <FormLabel>Gender</FormLabel>
+                <FormControl><Select {...field} onValueChange={field.onChange}>
+                  <SelectTrigger className='w-full'>
+                    <SelectValue placeholder="select gender" />
+                  </SelectTrigger>
+                  <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
+                    <SelectGroup>
+                      <SelectLabel>Gender</SelectLabel>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+          </div>
           <FormField
             control={form.control}
             name="password"

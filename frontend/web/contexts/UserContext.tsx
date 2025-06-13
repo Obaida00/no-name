@@ -7,6 +7,8 @@ type User = {
     id: number;
     name: string;
     email: string;
+    gender: "Male" | "Female";
+    address: string;
 };
 
 type UserContextType = {

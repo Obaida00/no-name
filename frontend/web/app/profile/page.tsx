@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
 export default function Profile() {
-    const { user, loadUser} = useUser();
+    const { user, loadUser, setUser } = useUser();
     const router = useRouter();
 
     useEffect(() => {
@@ -25,6 +25,11 @@ export default function Profile() {
 
         if (res.ok) {
             router.replace("/");
+            setTimeout(() => {
+
+                setUser(null);
+                console.log("USER AFTER LOGGING OUT: " + user);
+            }, 700);
         }
     };
 

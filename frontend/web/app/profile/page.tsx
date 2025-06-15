@@ -64,7 +64,6 @@ export default function Profile() {
                                 {user?.address}
                             </div>
                         </div>
-                        {/* Some hardcoded stuff: */}
                         <div className="">
                             <h1>Age</h1>
                             <div className="p-3 text-gray-600 bg-gray-100 rounded-xl">

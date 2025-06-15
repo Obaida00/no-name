@@ -22,8 +22,9 @@ export default function ProfileEditForm() {
         resolver: zodResolver(ProfileSchema),
         defaultValues: {
             name: user?.name,
-            age: 25,
-            gender: "Male",
+            address: user?.address,
+            age: user?.age,
+            gender: user?.gender,
         }
     });
 

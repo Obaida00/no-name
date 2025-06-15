@@ -33,22 +33,30 @@ export default function ProfileEditForm() {
         try {
             const body = JSON.stringify({
                 id: user?.id,
-                values
+                ...values
             });
-            const response = await fetch("/api/user/edit", {
+            const response = await fetch("/api/user", {
                 method: "POST",
                 body: body,
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json",
+                    Accept: "application/json",
+                    "Accept-Language": "en",
                 },
+                body: body,
             });
             if (response.ok) {
+                console.log("SUCCESS: RESPONSE 200");
                 const data = await response.json();
-                console.log("Edited profile: " + data.name);
+                console.log("THIS IS FROM UI: " + data.user.address);
+                myToast({ title: "User info were edited successfully", state: "success" })
+                loadUser(); 
+                router.back();
+
             }
         } catch (error) {
-            console.log("From UI: Error occured" + error);
+            console.log(error);
+            myToast({ title: "From UI: Error happened", state: "error" })
         }
     }
 

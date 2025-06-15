@@ -24,7 +24,6 @@ export default function Profile() {
 
 
         if (res.ok) {
-            console.log("USER AFTER LOGGING OUT: " + user);
             router.replace("/");
         }
     };

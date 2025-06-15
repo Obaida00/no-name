@@ -1,24 +1,40 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get("token")?.value;
-  console.log("my token is: " + token);
+export async function middleware(request: NextRequest) {
+  const protectedRoutes = ["/home", "/profile", "/profile-edit"];
+  const { pathname } = request.nextUrl;
 
-  if (!token && request.nextUrl.pathname !== "/") {
-    console.log("You cant go there");
-    return NextResponse.redirect(new URL("/", request.url));
+  if (protectedRoutes.some((route) => pathname.startsWith(route))) {
+    const token = request.cookies.get("token")?.value;
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.LARAVEL_API_BASE_URL}/api/user`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    } catch (error) {
+      console.error("middleware error", error);
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
-
-  if (token && request.nextUrl.pathname === "/") {
-    console.log("YOU ARE TRYING TO GO BACK TO AUTH PAGE");
-    return NextResponse.redirect(new URL("/home",request.url))
-  }
-
-  // console.log(token);
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard", "/profile", "/home"],
-};
+  matcher: ['/profile/:path*', '/home/:path*']
+}

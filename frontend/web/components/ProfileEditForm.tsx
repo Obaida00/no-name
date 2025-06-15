@@ -34,7 +34,6 @@ export default function ProfileEditForm() {
     });
 
     const handleSubmitEdits = async (values: z.infer<typeof ProfileSchema>) => {
-        console.log(values);
         try {
             const body = JSON.stringify({
                 id: user?.id,
@@ -42,7 +41,6 @@ export default function ProfileEditForm() {
             });
             const response = await fetch("/api/user", {
                 method: "POST",
-                body: body,
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
@@ -95,15 +93,15 @@ export default function ProfileEditForm() {
                             <FormField control={form.control} name='gender' render={({ field }) => (
                                 <FormItem className='md:ml-2 w-full'>
                                     <FormLabel>Gender</FormLabel>
-                                    <FormControl><Select {...field} onValueChange={field.onChange}>
+                                    <FormControl><Select {...field} defaultValue={field.value} onValueChange={field.onChange}>
                                         <SelectTrigger className='w-full'>
-                                            <SelectValue placeholder="select gender"/>
+                                            <SelectValue placeholder="select gender" />
                                         </SelectTrigger>
                                         <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
                                             <SelectGroup>
                                                 <SelectLabel>Gender</SelectLabel>
-                                                <SelectItem value="Male">Male</SelectItem>
-                                                <SelectItem value="Female">Female</SelectItem>
+                                                <SelectItem value="male">Male</SelectItem>
+                                                <SelectItem value="female">Female</SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select></FormControl>

@@ -9,11 +9,16 @@ import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@/components/ui/select';
 import { Button } from './ui/button';
+import { useRouter } from 'next/navigation';
+import myToast from './ui/toast';
 export default function ProfileEditForm() {
-    const { user } = useUser();
+    const { user, loadUser } = useUser();
+    const router = useRouter();
+
     const ProfileSchema = z.object({
         name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-        age: z.number().min(20, { message: "Your age must not be less than 20 years" }),
+        address: z.string(),
+        age: z.coerce.number().min(20, { message: "Your age must not be less than 20 years" }),
         gender: z.string()
     });
 
@@ -68,6 +73,13 @@ export default function ProfileEditForm() {
                         <FormField control={form.control} name='name' render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
+                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name='address' render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Address</FormLabel>
                                 <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
                                 <FormMessage />
                             </FormItem>

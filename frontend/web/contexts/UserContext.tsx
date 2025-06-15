@@ -1,7 +1,7 @@
 "use client"
 import myToast from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext,  useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 type User = {
     id: number;
@@ -9,6 +9,7 @@ type User = {
     email: string;
     gender: "Male" | "Female";
     address: string;
+    age: number;
 };
 
 type UserContextType = {
@@ -28,19 +29,21 @@ const UserContext = createContext<UserContextType>({
 export const useUser = () => useContext(UserContext);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, makeUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
+
+    const setUser = (user: User | null) => {
+        makeUser(user);
+    }
 
     const loadUser = async () => {
         try {
             setLoading(true);
-            const response = await fetch("/api/user", { credentials: "include" });
+            const response = await fetch("/api/user", { method: "GET", });
             if (response.status === 200) {
                 const data = await response.json();
-                console.log("talalalal" + data);
-
-                console.log("data fetched: " + data.email);
+                console.log("talalalal" + data.name);
                 setUser(data);
             }
             if (!response.ok) {

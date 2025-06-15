@@ -60,21 +60,21 @@ export default function Profile() {
                     <div className="grid sm:grid-cols-2 gap-5">
                         <div className="">
                             <h1>Address</h1>
-                            <div className="p-3 bg-gray-100 rounded-xl">
+                            <div className="p-3 text-gray-600 bg-gray-100 rounded-xl">
                                 {user?.address}
                             </div>
                         </div>
                         {/* Some hardcoded stuff: */}
                         <div className="">
                             <h1>Age</h1>
-                            <div className="p-3 bg-gray-100 rounded-xl">
-                                25
+                            <div className="p-3 text-gray-600 bg-gray-100 rounded-xl">
+                                {user?.age}
                             </div>
                         </div>
                         <div className="">
                             <h1>Gender</h1>
-                            <div className="p-3 bg-gray-100 rounded-xl">
-                                Male
+                            <div className="p-3 text-gray-600 bg-gray-100 rounded-xl">
+                                {user?.gender}
                             </div>
                         </div>
                     </div>

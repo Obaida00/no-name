@@ -1,7 +1,7 @@
 "use client"
 import myToast from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
     id: number;
@@ -55,10 +55,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
-    }
+    };
+
+    useEffect(() => {
+        loadUser();
+    }, []);
 
     return (
-        <UserContext.Provider value={{ user, loading, setUser, loadUser}}>
+        <UserContext.Provider value={{ user, loading, setUser, loadUser }}>
             {children}
         </UserContext.Provider>
     )

@@ -1,102 +1,6 @@
 
-
-
-// import { useState, useEffect } from 'react';
-
-// interface Product {
-//   id: string;
-//   name: string;
-//   description?: string;
-//   activeIngredient?: string;
-//   expDate?: string;
-//   categoryId?: string;
-// }
-
-// interface UseProductsResult {
-//   products: Product[];
-//   loading: boolean;
-//   error: string | null;
-//   refetch: () => Promise<void>;
-//   isEmpty: boolean;
-//   deleteProduct: (id: string) => Promise<void>;
-// }
-
-// export const useProducts = (): UseProductsResult => {
-//   const [state, setState] = useState({
-//     products: [] as Product[],
-//     loading: true,
-//     error: null as string | null,
-//   });
-
-//   const fetchProducts = async () => {
-//     try {
-//       setState(prev => ({ ...prev, loading: true, error: null }));
-//       const response = await fetch('/api/products', {
-//          method: 'GET',
-//       headers: {
-//         'Accept': 'application/json',
-//         'Accept-Language': 'en',
-//         //  'Content-Type': 'application/json',
-//         //  'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzQ4NTQ4NTU4LCJleHAiOjE3NDg1NTIxNTgsIm5iZiI6MTc0ODU0ODU1OCwianRpIjoiWHBzb3lnakZueG5oUUJWVSIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.IIgnZrbI1hp6aTgdkGRvPbhSQJXMacGFIXcoV7K78F4`,
-//       }
-//       ,  
-     
-//     }
-// );
-//       const data = await response.json();
-      
-//       if (!response.ok) throw new Error(data.error || `HTTP error! status: ${response.status}`);
-
-//       setState({
-//         products: Array.isArray(data) ? data : data.data || [],
-//         loading: false,
-//         error: null,
-//       });
-//     } catch (err) {
-//       setState({
-//         products: [],
-//         loading: false,
-//         error: err instanceof Error ? err.message : 'Unknown error',
-//       });
-//     }
-//   };
-
-//   const deleteProduct = async (id: string) => {
-//     try {
-//       const response = await fetch(`/api/products/${id}`, {
-//         method: 'DELETE',
-//       });
-      
-//       if (!response.ok) throw new Error('Delete failed');
-      
-//       setState(prev => ({
-//         ...prev,
-//         products: prev.products.filter(p => p.id !== id),
-//       }));
-//     } catch (err) {
-//       console.error('Delete error:', err);
-//       throw err;
-//     }
-//   };
-
-//   useEffect(() => { fetchProducts(); }, []);
-
-//   return {
-//     ...state,
-//     refetch: fetchProducts,
-//     isEmpty: !state.loading && state.products.length === 0,
-//     deleteProduct,
-//   };
-// };
-
-
-
-
-
-
-
-
-import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface Product {
   id: string;
@@ -110,75 +14,143 @@ interface Product {
   updatedAt?: string;
 }
 
-interface UseProductsResult {
+interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  perPage: number;
+  from: number;
+  to: number;
+}
+
+interface ProductsState {
   products: Product[];
   loading: boolean;
   error: string | null;
-  refetch: () => Promise<void>;
-  isEmpty: boolean;
+  pagination: PaginationInfo | null;
 }
 
-export const useProducts = (): UseProductsResult => {
-  const [state, setState] = useState<{
-    products: Product[];
-    loading: boolean;
-    error: string | null;
-  }>({
+export const useProducts = (initialPage = 1, initialPerPage = 15) => {
+  const [state, setState] = useState<ProductsState>({
     products: [],
     loading: true,
     error: null,
+    pagination: null,
   });
 
-  const fetchProducts = useCallback(async () => {
+  const currentPageRef = useRef(initialPage);
+  const perPageRef = useRef(initialPerPage);
+
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search') || '';
+  const fetchProducts = useCallback(async (page: number, itemsPerPage: number = perPageRef.current) => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
-      const response = await fetch('/api/products', {
-        headers: {
-          'Accept': 'application/json',
-          'Cache-Control': 'no-cache',
-        },
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || 
-          `Failed to fetch products (Status: ${response.status})`
-        );
+       let url = `/api/products?page=${page}&per_page=${itemsPerPage}`;
+      if (searchTerm) {
+        url += `&search=${encodeURIComponent(searchTerm)}`;
+      }
+      const res = await fetch(url);
+      
+      if (!res.ok) {
+        throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
       }
 
-      const data = await response.json();
+      const responseData = await res.json();
       
-      const productsData = Array.isArray(data.data) ? data.data : 
-                         Array.isArray(data) ? data : [];
+      const productsData = responseData.data || responseData || [];
+      const meta = responseData.meta || responseData;
+
+      const paginationData: PaginationInfo = {
+        currentPage: meta.current_page || page,
+        totalPages: meta.last_page || Math.ceil((meta.total || productsData.length) / itemsPerPage) || 1,
+        totalItems: meta.total || productsData.length,
+        perPage: meta.per_page || itemsPerPage,
+        from: meta.from || ((page - 1) * itemsPerPage) + 1,
+        to: meta.to || Math.min(page * itemsPerPage, meta.total || productsData.length),
+      };
 
       setState({
         products: productsData,
         loading: false,
         error: null,
+        pagination: paginationData,
       });
-    } catch (err) {
-      console.error('Error fetching products:', err);
+
+      currentPageRef.current = page;
+      perPageRef.current = itemsPerPage;
+
+      return { products: productsData, pagination: paginationData };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? 
+        error.message : 
+        'Failed to fetch products';
+      
       setState({
         products: [],
         loading: false,
-        error: err instanceof Error ? err.message : 'Failed to load products',
+        error: errorMessage,
+        pagination: null,
       });
+
+      throw error;
     }
-  }, []);
+  }, [searchTerm]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    fetchProducts(initialPage, initialPerPage);
+  }, [fetchProducts, initialPage, initialPerPage]);
+
+  const changePage = (page: number) => {
+    if (page === currentPageRef.current) return;
+    fetchProducts(page);
+  };
+
+  const changeItemsPerPage = (newPerPage: number) => {
+    if (newPerPage === perPageRef.current) return;
+    fetchProducts(1, newPerPage);
+  };
+
+  const nextPage = () => {
+    if (!state.pagination) return;
+    const { currentPage, totalPages } = state.pagination;
+    if (currentPage < totalPages) {
+      fetchProducts(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (!state.pagination) return;
+    const { currentPage } = state.pagination;
+    if (currentPage > 1) {
+      fetchProducts(currentPage - 1);
+    }
+  };
+
+  const refetch = () => fetchProducts(currentPageRef.current, perPageRef.current);
 
   return {
-    ...state,
-    refetch: fetchProducts,
-    isEmpty: !state.loading && state.products.length === 0,
+    products: state.products,
+    loading: state.loading,
+    error: state.error,
+    pagination: state.pagination,
+    currentPage: state.pagination?.currentPage || currentPageRef.current,
+    totalPages: state.pagination?.totalPages || 1,
+    refetch,
+    changePage,
+    changeItemsPerPage,
+    nextPage,
+    prevPage,
+    setPerPage: changeItemsPerPage,
   };
 };
+
+
+
+
+
+
 
 
 

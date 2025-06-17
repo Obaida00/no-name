@@ -15,7 +15,9 @@ export async function GET() {
     const response = await fetch(`${API_BASE_URL}/api/categories`, {
       headers: {
         'Accept': 'application/json',
-        // 'Authorization': `Bearer ${token}`
+        'Content-Type':'application/json',
+        'Accept-Language':'en',
+        'Authorization': `Bearer ${token}`
       }
     });
 

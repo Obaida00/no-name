@@ -3,14 +3,24 @@ import { NextResponse } from 'next/server';
 
 const API_BASE_URL = process.env.LARAVEL_API_BASE_URL;
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
 //..............
      if (!API_BASE_URL) {
       throw new Error('❌ LARAVEL_API_BASE_URL is not defined');
     }
 //...............
-    const res = await fetch(`${API_BASE_URL}/api/products`, {
+   const { searchParams } = new URL(request.url);
+  const page = Number(searchParams.get('page')) || 1;
+  const perPage = Number(searchParams.get('per_page')) || 15;
+;    const searchTerm = searchParams.get('search');
+
+ let url = `${API_BASE_URL}/api/products?page=${page}&per_page=${perPage}`;
+    if (searchTerm) {
+      url += `&search=${encodeURIComponent(searchTerm)}`;
+    }
+
+    const res = await fetch(url, {
         method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -32,7 +42,17 @@ export async function GET() {
     }
 
     const data = await res.json();
-    return NextResponse.json(data.data||data);
+    return NextResponse.json({
+      data: data.data,
+        meta: {
+        current_page: data.current_page,
+        last_page: data.last_page,
+        total: data.total,
+        per_page: data.per_page,
+        from: data.from,
+        to: data.to,
+      },
+    });
   } catch (error) {
     console.error('API Route Error:', error);
 
@@ -46,6 +66,20 @@ export async function GET() {
 
 
 
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
 
 
 

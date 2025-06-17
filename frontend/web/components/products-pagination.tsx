@@ -1,91 +1,104 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-
-interface ProductsPaginationProps {
-  onPrev: () => void;
-  onNext: () => void;
-}
-
-export function ProductsPagination(
-    {
-    offset,
-    totalProducts
-  }: {
-    // products: SelectProduct[];
-    offset: number;
-    totalProducts: number;}
-) {
-        let router = useRouter();
-        let productsPerPage = 5;
-      
-        function prevPage() {
-          router.back();
-        }
-      
-        function nextPage() {
-          router.push(`/?offset=${offset}`);
-        }
-    
+export const PaginationControls = ({
+  currentPage,
+  totalPages,
+  from,
+  to,
+  totalItems,
+  onPageChange,
+}: {
+  currentPage: number;
+  totalPages: number;
+  from: number;
+  to: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+}) => {
   return (
-    <form className="flex items-center w-full justify-between">
-          <div className="text-xs text-muted-foreground">
-            Showing{' '}
-            <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
-            </strong>{' '}
-            of <strong>{totalProducts}</strong> products
-          </div>
-          <div className="flex">
-            <Button
-              formAction={prevPage}
-              variant="ghost"
-              size="sm"
-              type="submit"
-              disabled={offset === productsPerPage}
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Prev
-            </Button>
-            <Button
-              formAction={nextPage}
-              variant="ghost"
-              size="sm"
-              type="submit"
-              disabled={offset + productsPerPage > totalProducts}
-            >
-              Next
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </form>
-  );
-}
+    // <div className="flex items-center justify-between mt-4">
+    //   <div className="flex gap-1">
+    //     <Button
+    //       variant="outline"
+    //       disabled={currentPage <= 1}
+    //       onClick={() => onPageChange(currentPage - 1)}
+    //     >
+    //       
+    //     </Button>
 
-{/* <form className="flex items-center w-full justify-end">
-<div className="flex ">
-  <Button
-    formAction={prevPage}
-    variant="ghost"
-    size="sm"
-    type="submit"
-    //   disabled={offset === productsPerPage}
-  >
-    <ChevronLeft className="mr-2 h-4 w-4" />
-    Prev
-  </Button>
-  <Button
-    formAction={nextPage}
-    variant="ghost"
-    size="sm"
-    type="submit"
-    //   disabled={offset + productsPerPage > totalProducts}
-  >
-    Next
-    <ChevronRight className="ml-2 h-4 w-4" />
-  </Button>
-</div>
-</form> */}
+    //     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+    //       const page = i + 1;
+    //       return (
+    //         <Button
+    //           key={page}
+    //           variant={currentPage === page ? "default" : "outline"}
+    //           onClick={() => onPageChange(page)}
+    //         >
+    //           {page}
+    //         </Button>
+    //       );
+    //     })}
+
+    //     {totalPages > 5 && (
+    //       <span className="px-3 py-1">...</span>
+    //     )}
+
+    //     <Button
+    //       variant="outline"
+    //       disabled={currentPage >= totalPages}
+    //       onClick={() => onPageChange(currentPage + 1)}
+    //     >
+    //       
+    //     </Button>
+    //   </div>
+
+    //   <div className="text-sm text-muted-foreground">
+    //      {currentPage}  {totalPages}
+    //   </div>
+    // </div>
+    <form className="flex items-center w-full justify-between">
+      <div className="text-xs text-muted-foreground">
+        Showing <strong>{from} </strong> - <strong>{to}</strong> out of{" "}
+        <strong>{totalItems}</strong>{" "} 
+        {/* ..<strong>{currentPage}</strong>{" "} */}
+        {/* <strong>{from}</strong>  <strong>{to}</strong> <strong>{totalItems}</strong>  */}
+        products
+      </div>
+      <div className="flex">
+        <Button
+          variant="ghost"
+          size="sm"
+          type="submit"
+          disabled={currentPage <= 1}
+          onClick={() => onPageChange(currentPage - 1)}
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Prev
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          type="submit"
+          disabled={currentPage >= totalPages}
+          onClick={() => onPageChange(currentPage + 1)}
+        >
+          Next
+          <ChevronRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
+    </form>
+  );
+};
+
+
+
+
+
+
+
+
+
+
+
+

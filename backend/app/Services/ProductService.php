@@ -32,17 +32,17 @@ class ProductService
             $query->orderBy('exp_date', 'asc');
         }
 
-        return $query->paginate(perPage: $perPage, page: $page);
+        return $query->with('category')->paginate(perPage: $perPage, page: $page);
     }
 
     public function getProductById(string $id)
     {
-        return Product::find($id);
+        return Product::find($id)->load('category');
     }
 
     public function createProduct(array $data)
     {
-        return Product::create($data);
+        return Product::create($data)->load('category');
     }
 
     public function updateProduct(string $id, array $data)
@@ -70,14 +70,14 @@ class ProductService
 
     public function getExpiredProducts(int $page = 1, int $perPage = 15)
     {
-        $query = Product::expired();
+        $query = Product::expired()->load('category');
 
         return $query->paginate(perPage: $perPage, page: $page);
     }
 
     public function getExpiringSoonProducts(int $page = 1, int $perPage = 15, int $months = 3)
     {
-        $query = Product::expiringSoon($months);
+        $query = Product::expiringSoon($months)->load('category');
 
         return $query->paginate(perPage: $perPage, page: $page);
     }

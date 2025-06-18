@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfileEditForm from '@/components/ProfileEditForm';
+import ProfileEditForm from './components/ProfileEditForm';
 
 export default function ProfileEdit() {
 
@@ -10,7 +10,6 @@ export default function ProfileEdit() {
             <div className="">
                 <ProfileEditForm></ProfileEditForm>
             </div>
-
         </div>
     )
 }

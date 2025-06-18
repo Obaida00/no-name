@@ -6,11 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { Input } from './ui/input';
+import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@/components/ui/select';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import myToast from './ui/toast';
+import myToast from '@/components/ui/toast';
 export default function ProfileEditForm() {
     const { user, loadUser } = useUser();
     const router = useRouter();

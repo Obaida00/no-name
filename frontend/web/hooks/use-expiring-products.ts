@@ -1,4 +1,4 @@
-import { useProducts } from "@/hooks/use-products";
+import { useProducts } from "@/context/ProductContext";
 import { useState, useEffect } from "react";
 
 export const useExpiringProducts = () => {

@@ -12,6 +12,12 @@ interface Product {
   createdAt?: string;
   updatedAt?: string;
   imageUrl?: string;
+  categoryName?:string;
+   category?: {
+    id: string;
+    name: string;
+  };
+  
 }
 
 interface UseProductDetailsResult {

@@ -1,5 +1,4 @@
 "use client";
-import { ProductsTable } from "@/components/products-table";
 import { useExpiringProducts } from "@/hooks/use-expiring-products";
 import Link from "next/link";
 

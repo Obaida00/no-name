@@ -1,0 +1,69 @@
+"use client"
+import myToast from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
+import React, { createContext, useContext, useEffect, useState } from "react";
+
+type User = {
+    id: number;
+    name: string;
+    email: string;
+    gender: "Male" | "Female";
+    address: string;
+    age: number;
+};
+
+type UserContextType = {
+    user: User | null;
+    loading: boolean;
+    loadUser: () => Promise<void>;
+    setUser: (user: User | null) => void;
+};
+
+const UserContext = createContext<UserContextType>({
+    user: null,
+    loading: false,
+    loadUser: async () => { },
+    setUser: () => { },
+});
+
+export const useUser = () => useContext(UserContext);
+
+export function UserProvider({ children }: { children: React.ReactNode }) {
+    const [user, makeUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const router = useRouter();
+
+    const setUser = (user: User | null) => {
+        makeUser(user);
+    }
+
+    const loadUser = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch("/api/user", { method: "GET", });
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log("talalalal" + data.name);
+                setUser(data);
+            }
+            if (!response.ok) {
+                router.replace("/");
+                myToast({ title: "Unauthenticated, log into your account", state: "error" })
+            }
+        } catch (error) {
+            console.error("this is from catch in the context: " + error)
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadUser();
+    }, []);
+
+    return (
+        <UserContext.Provider value={{ user, loading, setUser, loadUser }}>
+            {children}
+        </UserContext.Provider>
+    )
+}

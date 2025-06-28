@@ -1,21 +1,25 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 
-// Auth Routes
+//AuthController routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/social/login', [AuthController::class, 'handleSocialLogin']);
 Route::middleware('auth:api')->group(function () {
-    //AuthController routes
-    Route::get('/user', [AuthController::class, 'currentUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    //UserController routes
+});
+
+// User Routes
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', [UserController::class, 'currentUser']);
+    Route::post('/user', [UserController::class, 'updateCurrentUser']);
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show']);

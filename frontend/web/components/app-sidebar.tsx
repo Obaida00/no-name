@@ -1,8 +1,10 @@
+"use client"
 import React, { useState } from 'react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail, useSidebar, } from './ui/sidebar'
 import Link from 'next/link'
 import { BarChartBigIcon, PillBottle, LayoutGrid, Settings2, Menu } from 'lucide-react'
 import { Button } from './ui/button';
+import ProfileSideCard from './ProfileSideCard'
 
 export default function AppSidebar() {
     const [selectedTab, setSelectedTab] = useState("Dashboard");
@@ -34,7 +36,7 @@ export default function AppSidebar() {
         },
     ];
     return (
-        <Sidebar collapsible='icon'>
+        <Sidebar collapsible='icon' className='overflow-hidden'>
             <SidebarHeader >
                 <span>App</span>
             </SidebarHeader>
@@ -55,8 +57,10 @@ export default function AppSidebar() {
                 </SidebarMenu>
                 <SidebarGroup />
             </SidebarContent>
-            <SidebarFooter />
-            <SidebarRail></SidebarRail>
+            <SidebarFooter>
+                <ProfileSideCard />
+            </SidebarFooter>
+            <SidebarRail />
         </Sidebar >
     )
 }

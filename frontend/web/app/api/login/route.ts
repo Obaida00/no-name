@@ -21,6 +21,7 @@ export async function POST(req: Request) {
   const response = NextResponse.json({ message: "Logged in successfully" });
   console.log("My res token is: "+data.token);
   
+  response.cookies.delete("token");
   response.cookies.set("token", data.token, {
     httpOnly: true,
     path: "/",

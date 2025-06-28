@@ -14,35 +14,38 @@ class UserService
 
     public function createUser(array $data)
     {
+        $password = Hash::make($data['password']);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'],
-            'address' => $data['address'] ,
-            'gender' => $data['gender'] ,
+            'password' => $password,
+            'address' => $data['address'],
+            'gender' => $data['gender'],
             'age' => $data['age'],
         ]);
     }
 
-    public function getUser(User $user)
+    public function getUser(string $id)
     {
-        return $user;
+        return User::find($id);
     }
 
-    public function updateUser(User $user, array $data): User
+    public function updateUser(string $id, array $data)
     {
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
+        $user = User::find($id);
         $user->update($data);
-
         return $user;
     }
 
 
-    public function deleteUser(User $user)
+    public function deleteUser(string $id)
     {
+        $user = User::find($id);
+
+        if (!$user)
+            return false;
+
         $user->delete();
         return true;
     }

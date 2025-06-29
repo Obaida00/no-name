@@ -13,11 +13,12 @@ class UpdatePharmacyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $pharmacyId = $this->route('id');
-
-        $pharmacy = Pharmacy::find($pharmacyId);
-
-        return $pharmacy && $pharmacy->owner_user_id === Auth::id();
+//        $pharmacyId = $this->route('id');
+//
+//        $pharmacy = Pharmacy::find($pharmacyId);
+//
+//        return $pharmacy && $pharmacy->owner_user_id === Auth::id();
+        return true;
     }
 
     /**

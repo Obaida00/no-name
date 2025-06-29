@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Pharmacy;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use PhpParser\Node\Scalar\String_;
 
 class PharmacyService
 {
@@ -22,13 +24,14 @@ class PharmacyService
     public function createPharmacy(array $data): Pharmacy
     {
         return Pharmacy::create([
+            'id' => Str::uuid(),
             'name'     => $data['name'],
             'location' => $data['location'],
             'owner_user_id'  => Auth::id(),
         ]);
     }
 
-    public function getPharmacyById(int $id): Pharmacy
+    public function getPharmacyById(string $id): Pharmacy
     {
         return Pharmacy::findOrFail($id);
     }

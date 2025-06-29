@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ProductController;
+// use App\Http\Controllers\Api\ProductController;
 
 //AuthController routes
 Route::post('/register', [AuthController::class, 'register']);

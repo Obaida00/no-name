@@ -3,8 +3,10 @@
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\Api\ProductController;
 
 //AuthController routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -48,4 +50,12 @@ Route::middleware("auth:api")->prefix('products')->group(function () {
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'destroy']);
+});
+// Pharmacy Routes
+Route::middleware("auth:api")->prefix('pharmacies')->group(function () {
+    Route::get('/', [PharmacyController::class, 'index']);
+    Route::post('/', [PharmacyController::class, 'store']);
+    Route::get('{id}', [PharmacyController::class, 'show']);
+    Route::put('{id}', [PharmacyController::class, 'update']);
+    Route::delete('{id}', [PharmacyController::class, 'destroy']);
 });

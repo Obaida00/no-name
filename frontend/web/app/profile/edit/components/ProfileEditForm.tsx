@@ -17,6 +17,7 @@ export default function ProfileEditForm() {
 
     const ProfileSchema = z.object({
         name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+        email: z.string().email(),
         address: z.string(),
         age: z.coerce.number().min(20, { message: "Your age must not be less than 20 years" }),
         gender: z.string()
@@ -27,9 +28,10 @@ export default function ProfileEditForm() {
         resolver: zodResolver(ProfileSchema),
         defaultValues: {
             name: user?.name,
+            email: user?.email,
             address: user?.address,
-            age: user?.age,
             gender: user?.gender,
+            age: user?.age,
         }
     });
 
@@ -71,6 +73,13 @@ export default function ProfileEditForm() {
                         <FormField control={form.control} name='name' render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
+                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name='email' render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Email</FormLabel>
                                 <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
                                 <FormMessage />
                             </FormItem>

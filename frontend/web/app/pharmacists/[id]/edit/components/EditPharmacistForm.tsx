@@ -17,7 +17,7 @@ export default function EditPharmacistForm({ id }: { id: string }) {
     ///WE WILL DISCUSS THIS LATER ON.
     const handlePharmacistUpdate = async (values: z.infer<typeof PharmacistSchema>) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${id}`, {
+            const response = await fetch(`/api/users/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -25,7 +25,6 @@ export default function EditPharmacistForm({ id }: { id: string }) {
                     "Accept-Language": "en"
                 },
                 body: JSON.stringify({
-                    id: id,
                     name: values.name,
                     email: values.email,
                     address: values.address,
@@ -43,7 +42,7 @@ export default function EditPharmacistForm({ id }: { id: string }) {
             }
 
             const data = await response.json();
-            console.log(" Updated Pharmacist: " + data.user);
+            console.log(" Updated Pharmacist: " + data.message);
             router.back();
         } catch (error) {
             console.log("Error in edit page: " + error);

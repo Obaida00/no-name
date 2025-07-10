@@ -48,7 +48,7 @@ export default function PharmacistView({ id }: { id: string }) {
                 <div className="w-[200px] h-[200px] bg-gray-300 rounded-2xl"></div>
                 <div className="flex flex-col not-md:items-center">
                     {loading && (
-                        <Skeleton className='h-5 w-[300px]'></Skeleton>
+                        <Skeleton className='h-[20px] w-[300px]'></Skeleton>
                     )}
                     <div className="mb-3">
                         <h1 className='text-3xl font-semibold'>{pharmacist?.name}</h1>
@@ -61,6 +61,9 @@ export default function PharmacistView({ id }: { id: string }) {
                                         Email
                                     </TableCell>
                                     <TableCell className='text-gray-500'>
+                                        {loading && (
+                                            <Skeleton className='h-[10px] w-full'></Skeleton>
+                                        )}
                                         {pharmacist?.email}
                                     </TableCell>
                                 </TableRow>
@@ -69,6 +72,9 @@ export default function PharmacistView({ id }: { id: string }) {
                                         Address
                                     </TableCell>
                                     <TableCell className='text-gray-500'>
+                                        {loading && (
+                                            <Skeleton className='h-[10px] w-full'></Skeleton>
+                                        )}
                                         {pharmacist?.address}
                                     </TableCell>
                                 </TableRow>
@@ -77,6 +83,9 @@ export default function PharmacistView({ id }: { id: string }) {
                                         Gender
                                     </TableCell>
                                     <TableCell className='text-gray-500'>
+                                        {loading && (
+                                            <Skeleton className='h-[10px] w-full'></Skeleton>
+                                        )}
                                         {pharmacist?.gender}
                                     </TableCell>
                                 </TableRow>
@@ -85,6 +94,9 @@ export default function PharmacistView({ id }: { id: string }) {
                                         Age
                                     </TableCell>
                                     <TableCell className='text-gray-500'>
+                                        {loading && (
+                                            <Skeleton className='h-[10px] w-full'></Skeleton>
+                                        )}
                                         {pharmacist?.age}
                                     </TableCell>
                                 </TableRow>

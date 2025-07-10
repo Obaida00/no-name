@@ -83,3 +83,30 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     return NextResponse.json({ message: "Error in PUT /api/users/[id]" + error });
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const token = await request.cookies.get("token")?.value;
+  try {
+    const response = await fetch(
+      `${process.env.LARAVEL_API_BASE_URL}/api/user/${params.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      return NextResponse.json({message: response.statusText});
+    }
+
+    return NextResponse.json({message: response.statusText, status: 200});
+  } catch (error) {
+    return NextResponse.json({error});
+  }
+}

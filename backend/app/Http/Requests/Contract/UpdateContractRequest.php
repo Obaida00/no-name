@@ -27,6 +27,8 @@ class UpdateContractRequest extends FormRequest
             'endDate' => 'sometimes|required|date_format:Y-m-d|after:startDate',
             'monthlySalary' => 'sometimes|required|integer|min:1',
             'shiftId' => 'sometimes|required|uuid|exists:shifts,id',
+            'employeeCertificateNumber' => 'sometimes|nullable|string|max:255',
+            'employeeCertificateIssueDate' => 'sometimes|nullable|date_format:Y-m-d|before_or_equal:today',
             // 'pharmacyId' => 'nullable|uuid',
         ];
     }
@@ -44,6 +46,8 @@ class UpdateContractRequest extends FormRequest
                 'monthlySalary' => 'monthly_salary',
                 'shiftId' => 'shift_id',
                 'pharmacyId' => 'pharmacy_id',
+                'employeeCertificateNumber' => 'employee_certificate_number',
+                'employeeCertificateIssueDate' => 'employee_certificate_issue_date',
                 default => $key
             };
             $data[$dbKey] = $value;

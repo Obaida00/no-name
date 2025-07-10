@@ -27,6 +27,8 @@ class CreateContractRequest extends FormRequest
             'endDate' => 'required|date_format:Y-m-d|after:startDate',
             'monthlySalary' => 'required|integer|min:1',
             'shiftId' => 'required|uuid|exists:shifts,id',
+            'employeeCertificateNumber' => 'nullable|string|max:255',
+            'employeeCertificateIssueDate' => 'nullable|date_format:Y-m-d|before_or_equal:today',
             // 'pharmacyId' => 'nullable|uuid',
         ];
     }
@@ -42,6 +44,8 @@ class CreateContractRequest extends FormRequest
             'monthly_salary' => $validated['monthlySalary'],
             'shift_id' => $validated['shiftId'],
             'pharmacy_id' => $validated['pharmacyId'] ?? null,
+            'employee_certificate_number' => $validated['employeeCertificateNumber'] ?? null,
+            'employee_certificate_issue_date' => $validated['employeeCertificateIssueDate'] ?? null,
         ];
     }
 }

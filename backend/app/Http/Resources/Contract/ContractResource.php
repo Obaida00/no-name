@@ -24,6 +24,8 @@ class ContractResource extends JsonResource
             'monthlySalary' => $this->monthly_salary,
             'shiftId' => $this->shift_id,
             'pharmacyId' => $this->pharmacy_id,
+            'employeeCertificateNumber' => $this->employee_certificate_number,
+            'employeeCertificateIssueDate' => $this->employee_certificate_issue_date ? date_format($this->employee_certificate_issue_date, "Y-m-d") : null,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'isActive' => $this->isActive(),

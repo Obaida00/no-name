@@ -19,6 +19,8 @@ class Contract extends Model
         'monthly_salary',
         'shift_id',
         'pharmacy_id',
+        'employee_certificate_number',
+        'employee_certificate_issue_date',
     ];
 
     protected function casts(): array
@@ -27,6 +29,7 @@ class Contract extends Model
             'start_date' => 'date',
             'end_date' => 'date',
             'monthly_salary' => 'integer',
+            'employee_certificate_issue_date' => 'date',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'deleted_at' => 'datetime',

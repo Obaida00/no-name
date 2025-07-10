@@ -4,33 +4,14 @@ import { useState, useEffect } from "react";
 import { User } from "@/contexts/UserContext";
 import myToast from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import AddPharmacistsButton from "./components/AddPharmacistsButton";
-import EditPharmacistButton from "./[id]/edit/components/EditPharmacistButton";
+import PharmacistCard from "./components/PharmacistCard";
+import LoadingSpinner from "./components/LoadingSpinner";
 
-// Simple loading spinner component
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center">
-    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-slate-500"></div>
-  </div>
-);
-
-// Error message component
 const ErrorMessage = ({ message }: { message: string; }) => (
   <div className="text-center text-red-500">
     <p className="text-lg">{message}</p>
   </div>
-);
-
-// Pharmacist card component
-const PharmacistCard = ({ pharmacist }: { pharmacist: User }) => (
-  <Card className="px-2">
-    <CardHeader>
-      <CardTitle>{pharmacist.name}</CardTitle>
-      <CardDescription>{pharmacist.email}</CardDescription>
-        <EditPharmacistButton id={pharmacist.id}/>
-    </CardHeader>
-  </Card>
 );
 
 export default function Pharmacists() {

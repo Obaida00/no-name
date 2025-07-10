@@ -56,24 +56,24 @@ export async function PUT(
         status: 401,
       });
     }
-    // const body = await request.json();
+    const body = await request.json();
     const laravelResponse = await fetch(
       `${process.env.LARAVEL_API_BASE_URL}/api/users/${params.id}`,
       {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
           // "Accept-Language" : "en",
         },
-        // body: JSON.stringify({
-        //   name: body.name,
-        //   email: body.email,
-        //   address: body.address,
-        //   gender: body.gender,
-        //   age: body.age,
-        // }),
+        body: JSON.stringify({
+          name: body.name,
+          email: body.email,
+          address: body.address,
+          gender: body.gender,
+          age: body.age,
+        }),
       }
     );
     if (laravelResponse.status === 401) {

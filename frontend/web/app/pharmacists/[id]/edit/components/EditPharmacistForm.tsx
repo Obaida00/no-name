@@ -146,7 +146,7 @@ export default function EditPharmacistForm({ id }: { id: string }) {
                         <FormMessage />
                     </FormItem>
                 )} />
-                <Button type='submit'>Update pharmacist</Button>
+                <Button className='w-full' type='submit'>Update pharmacist</Button>
             </form>
         </Form>
     )

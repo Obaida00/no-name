@@ -75,7 +75,7 @@ export default function Pharmacists() {
         </div>
       )}
       {!loading && !error && pharmacists.length > 0 && (
-        <div className="grid gap-4 w-full max-w-4xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 w-full grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {pharmacists.map((pharmacist) => (
             <PharmacistCard key={pharmacist.id} pharmacist={pharmacist} />
           ))}

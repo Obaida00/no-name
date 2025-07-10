@@ -2,7 +2,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const token = request.cookies.get("token")?.value;
   try {
     if (!token) {
@@ -11,7 +14,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         status: 401,
       });
     }
-    
+
     const laravelResponse = await fetch(
       `${process.env.LARAVEL_API_BASE_URL}/api/users/${params.id}`,
       {
@@ -30,17 +33,21 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       });
     }
     const data = await laravelResponse.json();
-    const response = NextResponse.json({user: data.user,  status: 200 });
+    const response = NextResponse.json({ user: data, status: 200 });
 
     return response;
   } catch (error) {
-    return NextResponse.json({ message: "Error in GET /api/users/[id]" + error });
+    return NextResponse.json({
+      message: "Error in GET /api/users/[id]" + error,
+    });
   }
 }
 
-
 ///WE WILL DISCUSS THIS LATER ON.
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const token = request.cookies.get("token")?.value;
   try {
     if (!token) {
@@ -76,11 +83,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       });
     }
     const data = await laravelResponse.json();
-    const response = NextResponse.json({user: data.user, status: 200 });
+    const response = NextResponse.json({ user: data.user, status: 200 });
 
     return response;
   } catch (error) {
-    return NextResponse.json({ message: "Error in PUT /api/users/[id]" + error });
+    return NextResponse.json({
+      message: "Error in PUT /api/users/[id]" + error,
+    });
   }
 }
 

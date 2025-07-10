@@ -35,7 +35,7 @@ export default function Profile() {
 
     const handleTransition = () => {
         console.log('moving to profile edit');
-        router.push("/profile-edit");
+        router.push("/profile/edit");
     }
 
     return (

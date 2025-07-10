@@ -42,7 +42,9 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->userService->getAllUsers();
-        return response()->json(UserResource::collection($users));
+        return response()->json([
+            "data" => UserResource::collection($users)
+        ]);
     }
 
     public function store(StoreUserRequest $request)

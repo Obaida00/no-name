@@ -2,17 +2,18 @@
 import { Table, TableBody, TableCell, TableFooter, TableRow } from '@/components/ui/table'
 import React, { useEffect, useState } from 'react'
 import myToast from '@/components/ui/toast'
-import { User } from '@/contexts/UserContext'
+import { User, useUser } from '@/contexts/UserContext'
 import DeletePharmacistButton from '../edit/components/DeletePharmacistButton';
 import EditPharmacistButton from '../edit/components/EditPharmacistButton';
 import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@/components/ui/badge'
 
 
 export default function PharmacistView({ id }: { id: string }) {
 
     const [loading, setLoading] = useState(false);
     const [pharmacist, setPharmacist] = useState<User | null>(null);
-
+    const { user } = useUser();
 
 
     useEffect(() => {
@@ -36,13 +37,13 @@ export default function PharmacistView({ id }: { id: string }) {
             } catch (error) {
                 console.log(error);
             } finally {
-                setLoading(false);  
+                setLoading(false);
             }
         }
         fetchPharmacist();
     }, [id]);
     return (
-        
+
         <div className="w-full min-h-screen font-[family-name:var(--font-geist-sans)]">
             <div className="flex not-md:flex-col not-md:items-center not-md:space-y-5 md:space-x-10 w-full p-8 ">
                 <div className="w-[200px] h-[200px] bg-gray-300 rounded-2xl"></div>
@@ -50,8 +51,11 @@ export default function PharmacistView({ id }: { id: string }) {
                     {loading && (
                         <Skeleton className='h-[20px] w-[300px]'></Skeleton>
                     )}
-                    <div className="mb-3">
+                    <div className="mb-3 flex items-center">
                         <h1 className='text-3xl font-semibold'>{pharmacist?.name}</h1>
+                        <span className="ml-2">
+                            {pharmacist?.id === user?.id ? <Badge variant={"secondary"} className="bg-green-100 text-green-800">Current</Badge> : null}
+                        </span>
                     </div>
                     <div className="">
                         <Table className='text-md'>

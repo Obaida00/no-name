@@ -112,7 +112,7 @@ export default function AddPharmacistsForm() {
                             <FormMessage />
                         </FormItem>
                     )} />
-                    <div className="flex not-md:flex-col items-start">
+                    <div className="flex not-md:space-x-2 items-start">
                         <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
                             <FormItem className='mb-4'>
                                 <FormLabel>Age</FormLabel>

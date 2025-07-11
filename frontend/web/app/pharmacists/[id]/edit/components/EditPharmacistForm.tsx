@@ -12,8 +12,7 @@ import { z } from 'zod'
 
 export default function EditPharmacistForm({ id }: { id: string }) {
     const router = useRouter();
-
-
+    
     ///WE WILL DISCUSS THIS LATER ON.
     const handlePharmacistUpdate = async (values: z.infer<typeof PharmacistSchema>) => {
         try {
@@ -38,11 +37,12 @@ export default function EditPharmacistForm({ id }: { id: string }) {
             }
             if (!response.ok) {
                 myToast({ title: response.statusText, state: "error" });
-
+                
             }
-
+            
             const data = await response.json();
             console.log(" Updated Pharmacist: " + data.message);
+            myToast({ title: "Updated pharmacist info", state: "error" });
             router.back();
         } catch (error) {
             console.log("Error in edit page: " + error);
@@ -91,26 +91,26 @@ export default function EditPharmacistForm({ id }: { id: string }) {
     return (
         <div className="w-100">
             <Form {...form}>
-                <form action="" onSubmit={form.handleSubmit(handlePharmacistUpdate)} className=' md:w-full flex lg:flex-row flex-col justify-center lg:justify-between md:items-end h-100'>
+                <form action="" onSubmit={form.handleSubmit(handlePharmacistUpdate)} className=' '>
                     <div className='md:w-[450px] border border-dashed rounded-2xl md:self-start p-8'>
                         <FormField control={form.control} name='name' render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
-                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormControl><Input placeholder='Name' {...field} className='mb-4' type="text" /></FormControl>
                                 <FormMessage />
                             </FormItem>
                         )} />
                         <FormField control={form.control} name='email' render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Email</FormLabel>
-                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormControl><Input placeholder='Email' {...field} className='mb-4' type="text" /></FormControl>
                                 <FormMessage />
                             </FormItem>
                         )} />
                         <FormField control={form.control} name='address' render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Address</FormLabel>
-                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormControl><Input placeholder='Address' {...field} className='mb-4' type="text" /></FormControl>
                                 <FormMessage />
                             </FormItem>
                         )} />
@@ -118,7 +118,7 @@ export default function EditPharmacistForm({ id }: { id: string }) {
                             <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
                                 <FormItem className='mb-4'>
                                     <FormLabel>Age</FormLabel>
-                                    <FormControl><Input {...field} value={field.value} type="number" min={20} /></FormControl>
+                                    <FormControl><Input placeholder='Age' {...field} value={field.value} type="number" min={20} max={70} /></FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )} />
@@ -141,8 +141,10 @@ export default function EditPharmacistForm({ id }: { id: string }) {
                                 </FormItem>
                             )} />
                         </div>
+                        <div>
+                            <Button type='submit' variant={'default'} className='mt-7 w-full cursor-pointer'>Confirm changes</Button>
+                        </div>
                     </div>
-                        <Button type='submit' variant={'default'} className='mt-7 not-lg:w-full cursor-pointer'>Save changes</Button>
                 </form>
             </Form>
         </div>

@@ -24,14 +24,14 @@ export default function AddPharmacistsForm() {
     };
     const handlePharmacistAddition = async (values: z.infer<typeof PharmacistSchema>) => {
         console.log("age type is: " + typeof values.age);
-        
+
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
-                    "Accept-Language" : "en"
+                    "Accept-Language": "en"
                 },
                 body: JSON.stringify({
                     name: values.name,
@@ -53,7 +53,8 @@ export default function AddPharmacistsForm() {
             }
 
             const data = await response.json();
-            console.log(" Added Pharmacist: " + data.status);
+            console.log(" Added Pharmacist: " + data.user);
+            myToast({ title: response.statusText, state: "success" });
             router.back();
         } catch (error) {
             console.log("Error in add page: " + error);
@@ -88,97 +89,100 @@ export default function AddPharmacistsForm() {
     })
     return (
         <Form {...form}>
-            <form action="" onSubmit={form.handleSubmit(handlePharmacistAddition)} className='space-y-3'>
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
+            <form action="" onSubmit={form.handleSubmit(handlePharmacistAddition)} className=' '>
+                <div className='md:w-[450px] border border-dashed rounded-2xl md:self-start p-8'>
+                    <FormField control={form.control} name='name' render={({ field }) => (
                         <FormItem>
-                            <FormControl><Input {...field} placeholder='Full name' /></FormControl>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl><Input placeholder='Name' {...field} className='mb-4' type="text" /></FormControl>
                             <FormMessage />
                         </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
+                    )} />
+                    <FormField control={form.control} name='email' render={({ field }) => (
                         <FormItem>
-                            <FormControl><Input {...field} type="email" placeholder='Email address' /></FormControl>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl><Input placeholder='Email' {...field} className='mb-4' type="text" /></FormControl>
                             <FormMessage />
                         </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="address"
-                    render={({ field }) => (
+                    )} />
+                    <FormField control={form.control} name='address' render={({ field }) => (
                         <FormItem>
-                            <FormControl><Input {...field} type="text" placeholder='Street address' /></FormControl>
+                            <FormLabel>Address</FormLabel>
+                            <FormControl><Input placeholder='Address' {...field} className='mb-4' type="text" /></FormControl>
                             <FormMessage />
                         </FormItem>
-                    )}
-                />
-                <FormField control={form.control} name='gender' render={({ field }) => (
-                    <FormItem className=''>
-                        <FormControl><Select {...field} onValueChange={field.onChange}>
-                            <SelectTrigger defaultValue={"Select gender"} className='w-full'>
-                                <SelectValue placeholder="select gender" />
-                            </SelectTrigger>
-                            <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
-                                <SelectGroup>
-                                    <SelectLabel>Gender</SelectLabel>
-                                    <SelectItem value="male">Male</SelectItem>
-                                    <SelectItem value="female">Female</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select></FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-                <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
-                    <FormItem className='mb-4'>
-                        <FormLabel>Age</FormLabel>
-                        <FormControl><Input {...field} value={field.value} placeholder='Age' type="number" min={20} /></FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="flex gap-1">
-                                    <Input {...field} placeholder='Password' type={passwordVisible ? "text" : "password"} />
-                                    <Button size="icon" type="button" onClick={togglePasswordVisibility}>
-                                        {passwordVisible ? <EyeOff /> : <Eye />}
-                                    </Button>
-                                </div>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="flex gap-1">
-                                    <Input {...field} placeholder='Confirm password' type={confirmPasswordVisible ? "text" : "password"} />
-                                    <Button size="icon" type="button" onClick={toggleConfirmVisibility}>
-                                        {confirmPasswordVisible ? <EyeOff /> : <Eye />}
-                                    </Button>
-                                </div>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type='submit'>Add pharmacist</Button>
+                    )} />
+                    <div className="flex not-md:flex-col items-start">
+                        <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
+                            <FormItem className='mb-4'>
+                                <FormLabel>Age</FormLabel>
+                                <FormControl><Input placeholder='Age' {...field} value={field.value} type="number" min={20} max={70} /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name='gender' render={({ field }) => (
+                            <FormItem className='md:ml-2 w-full'>
+                                <FormLabel>Gender</FormLabel>
+                                <FormControl><Select {...field} defaultValue={field.value} onValueChange={field.onChange}>
+                                    <SelectTrigger className='w-full'>
+                                        <SelectValue placeholder="select gender" />
+                                    </SelectTrigger>
+                                    <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
+                                        <SelectGroup>
+                                            <SelectLabel>Gender</SelectLabel>
+                                            <SelectItem value="male">Male</SelectItem>
+                                            <SelectItem value="female">Female</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                    </div>
+                    <div className="flex flex-col space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password</FormLabel>
+                                    <FormControl>
+                                        <div className="flex gap-1">
+                                            <Input placeholder='Password' {...field} type={passwordVisible ? "text" : "password"} />
+                                            <Button size="icon" type="button" onClick={togglePasswordVisibility}>
+                                                {passwordVisible ? <EyeOff /> : <Eye />}
+                                            </Button>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="confirmPassword"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Confirm Password</FormLabel>
+                                    <FormControl>
+                                        <div className="flex gap-1">
+                                            <Input placeholder='Confirm Password' {...field} type={confirmPasswordVisible ? "text" : "password"} />
+                                            <Button size="icon" type="button" onClick={toggleConfirmVisibility}>
+                                                {confirmPasswordVisible ? <EyeOff /> : <Eye />}
+                                            </Button>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div>
+                        <Button type='submit' variant={'default'} className='mt-7 w-full cursor-pointer'>Add pharmacist</Button>
+                    </div>
+                </div>
             </form>
         </Form>
     )
 }
+

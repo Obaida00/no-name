@@ -14,7 +14,7 @@ export default function PharmacitsCard({ pharmacist }: { pharmacist: User }) {
                 <CardTitle>
                     {pharmacist.name}
                     <span className="ml-2">
-                        {pharmacist.email === user?.email ? <Badge variant={"secondary"} className="bg-green-200">Logged in</Badge> : null}
+                        {pharmacist.id === user?.id ? <Badge variant={"secondary"} className="bg-green-100 text-green-800">Current</Badge> : null}
                     </span>
                 </CardTitle>
                 <CardAction>

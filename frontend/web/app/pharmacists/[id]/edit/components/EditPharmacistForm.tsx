@@ -89,64 +89,62 @@ export default function EditPharmacistForm({ id }: { id: string }) {
     }, [id, form]);
 
     return (
-        <Form {...form}>
-            <form action="" onSubmit={form.handleSubmit(handlePharmacistUpdate)} className='space-y-3'>
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl><Input {...field} placeholder='Full name' /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl><Input {...field} type="email" placeholder='Email address' /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="address"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl><Input {...field} type="text" placeholder='Street address' /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField control={form.control} name='gender' render={({ field }) => (
-                    <FormItem className=''>
-                        <FormControl><Select {...field} onValueChange={field.onChange}>
-                            <SelectTrigger defaultValue={"Select gender"} className='w-full'>
-                                <SelectValue placeholder="select gender" />
-                            </SelectTrigger>
-                            <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
-                                <SelectGroup>
-                                    <SelectLabel>Gender</SelectLabel>
-                                    <SelectItem value="male">Male</SelectItem>
-                                    <SelectItem value="female">Female</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select></FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-                <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
-                    <FormItem className='mb-4'>
-                        <FormLabel>Age</FormLabel>
-                        <FormControl><Input {...field} value={field.value} placeholder='Age' type="number" min={20} /></FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )} />
-                <Button className='w-full' type='submit'>Update pharmacist</Button>
-            </form>
-        </Form>
+        <div className="w-100">
+            <Form {...form}>
+                <form action="" onSubmit={form.handleSubmit(handlePharmacistUpdate)} className=' md:w-full flex lg:flex-row flex-col justify-center lg:justify-between md:items-end h-100'>
+                    <div className='md:w-[450px] border border-dashed rounded-2xl md:self-start p-8'>
+                        <FormField control={form.control} name='name' render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Name</FormLabel>
+                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name='email' render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <FormField control={form.control} name='address' render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Address</FormLabel>
+                                <FormControl><Input {...field} className='mb-4' type="text" /></FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+                        <div className="flex not-md:flex-col items-start">
+                            <FormField control={form.control} name='age' rules={{ min: 20 }} render={({ field }) => (
+                                <FormItem className='mb-4'>
+                                    <FormLabel>Age</FormLabel>
+                                    <FormControl><Input {...field} value={field.value} type="number" min={20} /></FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )} />
+                            <FormField control={form.control} name='gender' render={({ field }) => (
+                                <FormItem className='md:ml-2 w-full'>
+                                    <FormLabel>Gender</FormLabel>
+                                    <FormControl><Select {...field} defaultValue={field.value} onValueChange={field.onChange}>
+                                        <SelectTrigger className='w-full'>
+                                            <SelectValue placeholder="select gender" />
+                                        </SelectTrigger>
+                                        <SelectContent className='font-[family-name:var(--font-geist-sans)]'>
+                                            <SelectGroup>
+                                                <SelectLabel>Gender</SelectLabel>
+                                                <SelectItem value="male">Male</SelectItem>
+                                                <SelectItem value="female">Female</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select></FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )} />
+                        </div>
+                    </div>
+                        <Button type='submit' variant={'default'} className='mt-7 not-lg:w-full cursor-pointer'>Save changes</Button>
+                </form>
+            </Form>
+        </div>
     )
 }

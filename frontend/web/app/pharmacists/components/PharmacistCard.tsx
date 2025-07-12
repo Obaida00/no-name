@@ -9,7 +9,8 @@ export default function PharmacitsCard({ pharmacist }: { pharmacist: User }) {
     const router = useRouter();
     const { user } = useUser();
     return (
-        <Card className="">
+        ///TODO: Add transition to the card one way or another bc common css transition is not working here.
+        <Card className="cursor-pointer hover:scale-x-[1.01] hover:scale-y-[1.01]" onClick={() => router.push(`/pharmacists/${pharmacist.id}`)}>
             <CardHeader>
                 <CardTitle>
                     {pharmacist.name}
@@ -18,7 +19,7 @@ export default function PharmacitsCard({ pharmacist }: { pharmacist: User }) {
                     </span>
                 </CardTitle>
                 <CardAction>
-                    <Button variant={"ghost"} className="cursor-pointer" onClick={() => router.push(`/pharmacists/${pharmacist.id}`)} size={"icon"}><ArrowRight></ArrowRight></Button>
+                    <Button variant={"ghost"} className="cursor-pointer"  size={"icon"}><ArrowRight></ArrowRight></Button>
                 </CardAction>
             </CardHeader>
             <CardContent>

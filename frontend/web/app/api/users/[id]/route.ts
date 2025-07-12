@@ -1,5 +1,3 @@
-// THIS IS FOR A SINGLE USER.
-
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -43,7 +41,6 @@ export async function GET(
   }
 }
 
-///WE WILL DISCUSS THIS LATER ON.
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -65,7 +62,6 @@ export async function PUT(
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          // "Accept-Language" : "en",
         },
         body: JSON.stringify({
           name: body.name,

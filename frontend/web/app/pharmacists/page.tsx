@@ -54,7 +54,6 @@ export default function Pharmacists() {
     }
   };
 
-  // Fetch data on component mount
   useEffect(() => {
     fetchPharmacists();
   }, []);

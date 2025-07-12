@@ -1,5 +1,3 @@
-// THIS IS FOR THE WHOLE USERS IN THE SYSTEM.
-
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

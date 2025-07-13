@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarRail, useSidebar, } from './ui/sidebar'
 import Link from 'next/link'
-import { BarChartBigIcon, PillBottle, LayoutGrid, Settings2, Menu } from 'lucide-react'
+import { BarChartBigIcon, PillBottle, LayoutGrid, Settings2, Menu, Users } from 'lucide-react'
 import { Button } from './ui/button';
 import ProfileSideCard from './ProfileSideCard'
 
@@ -26,6 +26,12 @@ export default function AppSidebar() {
             icon: <LayoutGrid />,
             title: "Categories",
             href: "",
+            selected: false
+        },
+        {
+            icon: <Users />,
+            title: "Pharmacists",
+            href: "/pharmacists",
             selected: false
         },
         {

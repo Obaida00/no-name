@@ -3,7 +3,7 @@ import myToast from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type User = {
+export type User = {
     id: number;
     name: string;
     email: string;

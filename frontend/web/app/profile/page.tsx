@@ -35,14 +35,14 @@ export default function Profile() {
 
     const handleTransition = () => {
         console.log('moving to profile edit');
-        router.push("/profile-edit");
+        router.push("/profile/edit");
     }
 
     return (
         <>
-            <div className="flex flex-col font-[family-name:var(--font-geist-sans)] p-8">
+            <div className="flex flex-col w-screen justify-between font-[family-name:var(--font-geist-sans)] p-8">
                 <h2 className='text-2xl font-bold'>Profile</h2>
-                <div className=" w-100 md:w-150 h-full p-8 rounded-2xl">
+                <div className=" w-100 m-auto md:w-150 mb-10 border border-dashed p-8 rounded-2xl">
                     <div className="flex items-center bg-gray-100 px-8 py-5 rounded-2xl space-x-5 mb-7">
                         <Avatar className='w-[50px] h-[50px]'>
                             <AvatarFallback className='border border-black'>
